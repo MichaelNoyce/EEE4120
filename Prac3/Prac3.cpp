@@ -84,7 +84,7 @@ void Master () {
  // Allocated RAM for the output image
  if(!Output.Allocate(Input.Width, Input.Height, Input.Components)) return;
 
- printf('INPUT WIDTH: %d \n',  (int)Input.Width);
+ printf('INPUT WIDTH: %d \n',  (char)Input.Width);
 
  // This is example code of how to copy image files ----------------------------
  printf("Start of example code...\n");
