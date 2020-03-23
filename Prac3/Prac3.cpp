@@ -36,7 +36,7 @@
 
 //---------- STUDENT NUMBERS --------------------------------------------------
 //
-// Please note:  put your student numbers here !!  <<<< NB!  NB!
+// NYCMIC002; JANJOH021
 //
 //-----------------------------------------------------------------------------
 
@@ -84,6 +84,9 @@ void Master () {
  // Allocated RAM for the output image
  if(!Output.Allocate(Input.Width, Input.Height, Input.Components)) return;
 
+ printf('INPUT WIDTH: ',  Input.Width);
+ printf('INPUT HEIGHT ', Input.Height);
+
  // This is example code of how to copy image files ----------------------------
  printf("Start of example code...\n");
  for(j = 0; j < 10; j++){
@@ -96,6 +99,7 @@ void Master () {
   }
   printf("Time = %lg ms\n", (double)toc()/1e-3);
  }
+ 
  printf("End of example code...\n\n");
  // End of example -------------------------------------------------------------
 
@@ -107,6 +111,7 @@ void Master () {
  //! <h3>Output</h3> The file Output.jpg will be created on success to save
  //! the processed output.
 }
+
 //------------------------------------------------------------------------------
 
 /** This is the Slave function, the workers of this MPI application. */
