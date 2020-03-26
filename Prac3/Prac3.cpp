@@ -114,10 +114,29 @@ void Master () {
 int bufferSize = Input.Width*Input.Components;
 int RowNum = Input.Height;
 
-printf("DEBUG1: Rowsize is: %d", (int)RowNum); //Debug statements referenced for easy debuggging
-printf("DEBUG2: Buffer Size is: %d", (int)bufferSize);//''
+printf("DEBUG1: Rowsize is: %d \n", (int)RowNum); //Debug statements referenced for easy debuggging
+printf("DEBUG2: Buffer Size is: %d \n", (int)bufferSize);//''
 
 //Step 2: Send Rowsize to each slave
+
+
+//For loop to send data size to each slave 
+for (size_t j = 1; j < numprocs ; i++) //note <numprocs as master counts as a process
+{
+    MPI_Send(&bufferSize, BUFSIZE, MPI_INT, j, TAG, MPI_COMM_WORLD); //Send bufferSize to each slave  
+    MPI_Send(&RowNum, BUFSIZE, MPI_INT, j, TAG+1, MPI_COMM_WORLD); //Convention to increment tag by 1 in order to differentiate each process
+}
+
+
+/* Important information
+JSAMPLE** Rows; // Points to an array of pointers to the
+                  // beginning of each row in the image buffer.
+                  //
+                  // Use to access the image buffer in a row-wise
+                  // fashion, with:
+                  // Rows[row][num_components*column + component]
+*/
+
 //Step 3: Send data to each slave
 //Step 4: Reviceive data from each slave
 //Step 5: Collect and order data 
