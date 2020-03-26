@@ -113,7 +113,7 @@ void Master () {
 //Step 1: Determine the size of data sample 
 int bufferSize = Input.Width*Input.Components;
 int RowNum = Input.Height;
-int rowPerSlave = RowNum/(numprocs-1);
+int rowPerSlave = floor(RowNum/(numprocs-1));
 
 printf("DEBUG1a: Rowsize is: %d \n", (int)RowNum); //Debug statements referenced for easy debuggging
 printf("DEBUG1b: Rows per slave is: %d \n", (int)rowPerSlave); //Debug statements referenced for easy debuggging
@@ -161,6 +161,7 @@ void Slave(int ID){
  char buff [BUFSIZE];
  int bufferSize;
  int RowNum;
+ int rowsPerSlave;
  MPI_Status stat;
 
  // receive from rank 0 (master):
@@ -172,10 +173,11 @@ void Slave(int ID){
 
 
  //Receive size information 
- //MPI_Recv(&bufferSize, 1, MPI_INT, 0, TAG+1, MPI_COMM_WORLD, &stat);
- //MPI_Recv(&RowNum, 1, MPI_INT, 0, TAG+2, MPI_COMM_WORLD, &stat);
+ MPI_Recv(&bufferSize, 1, MPI_INT, 0, TAG+1, MPI_COMM_WORLD, &stat);
+ MPI_Recv(&RowNum, 1, MPI_INT, 0, TAG+2, MPI_COMM_WORLD, &stat);
 
- printf("DEBUG3: Rowsize sent to slave is: %d \n", (int)RowNum);
+ printf("DEBUG3a: Rowsize sent to slave is: %d \n", (int)RowNum);
+ printf("DEBUG3b: Rows per slave sent to slave is: %d \n", (int)rowsPerSlave);
  printf("DEBUG4: Buffer Size sent to slave is: %d \n", (int)bufferSize);
 
  // send to rank 0 (master):
