@@ -107,11 +107,11 @@ printf("DEBUG2: Buffer Size is: %d \n", (int)bufferSize);//''
 
 
 //For loop to send data size to each slave 
-for (size_t j = 1; j < numprocs ; j++) //note <numprocs as master counts as a process
+for (size_t j = 1; j < numprocs ; j++) //note j<numprocs as master counts as a process
 {
-    MPI_Send(&bufferSize, BUFSIZE, MPI_INT, j, TAG, MPI_COMM_WORLD); //Send bufferSize to each slave  
-    MPI_Send(&RowNum, BUFSIZE, MPI_INT, j, TAG+1, MPI_COMM_WORLD); //Convention to increment tag by 1 in order to differentiate each process
-    MPI_Send(&rowPerSlave, BUFSIZE, MPI_INT, j, TAG+2, MPI_COMM_WORLD);
+    MPI_Send(&bufferSize, 1, MPI_INT, j, TAG, MPI_COMM_WORLD); //Send bufferSize to each slave  
+    MPI_Send(&RowNum, 1, MPI_INT, j, TAG+1, MPI_COMM_WORLD); //Convention to increment tag by 1 in order to differentiate each process
+    MPI_Send(&rowPerSlave, 1, MPI_INT, j, TAG+2, MPI_COMM_WORLD);
 }
 
 /* Important information
