@@ -114,8 +114,8 @@ void Master () {
 int bufferSize = Input.Width*Input.Components;
 int RowNum = Input.Height;
 
-sprintf('DEBUG1: Rowsize is: %d', RowNum);
-sprintf('DEBUG2: Buffer Size is: %d', bufferSize);
+sprintf('DEBUG1: Rowsize is: %d', RowNum); //Debug statements referenced for easy debuggging
+sprintf('DEBUG2: Buffer Size is: %d', bufferSize);//''
 
 //Step 2: Send Rowsize to each slave
 //Step 3: Send data to each slave
