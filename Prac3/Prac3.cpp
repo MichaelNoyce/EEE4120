@@ -113,8 +113,10 @@ void Master () {
 //Step 1: Determine the size of data sample 
 int bufferSize = Input.Width*Input.Components;
 int RowNum = Input.Height;
+int rowPerSlave = RowNum/(numprocs-1);
 
-printf("DEBUG1: Rowsize is: %d \n", (int)RowNum); //Debug statements referenced for easy debuggging
+printf("DEBUG1a: Rowsize is: %d \n", (int)RowNum); //Debug statements referenced for easy debuggging
+printf("DEBUG1b: Rows per slave is: %d \n", (int)rowPerSlave); //Debug statements referenced for easy debuggging
 printf("DEBUG2: Buffer Size is: %d \n", (int)bufferSize);//''
 
 //Step 2: Send Rowsize to each slave
@@ -123,8 +125,8 @@ printf("DEBUG2: Buffer Size is: %d \n", (int)bufferSize);//''
 //For loop to send data size to each slave 
 for (size_t j = 1; j < numprocs ; j++) //note <numprocs as master counts as a process
 {
-    MPI_Send(&bufferSize, BUFSIZE, MPI_INT, j, TAG, MPI_COMM_WORLD); //Send bufferSize to each slave  
-    MPI_Send(&RowNum, BUFSIZE, MPI_INT, j, TAG+1, MPI_COMM_WORLD); //Convention to increment tag by 1 in order to differentiate each process
+    MPI_Send(&bufferSize, BUFSIZE, MPI_INT, j, TAG+1, MPI_COMM_WORLD); //Send bufferSize to each slave  
+    MPI_Send(&RowNum, BUFSIZE, MPI_INT, j, TAG+2, MPI_COMM_WORLD); //Convention to increment tag by 1 in order to differentiate each process
 }
 
 
@@ -170,8 +172,8 @@ void Slave(int ID){
 
 
  //Receive size information 
- MPI_Recv(&bufferSize, 1, MPI_INT, 0, TAG, MPI_COMM_WORLD, &stat);
- MPI_Recv(&RowNum, 1, MPI_INT, 0, TAG+1, MPI_COMM_WORLD, &stat);
+ MPI_Recv(&bufferSize, 1, MPI_INT, 0, TAG+1, MPI_COMM_WORLD, &stat);
+ MPI_Recv(&RowNum, 1, MPI_INT, 0, TAG+2, MPI_COMM_WORLD, &stat);
 
  printf("DEBUG3: Rowsize sent to slave is: %d \n", (int)RowNum);
  printf("DEBUG4: Buffer Size sent to slave is: %d \n", (int)bufferSize);
