@@ -33,7 +33,7 @@ Prac3:
 # you can type "make run" to execute the program in this case with a default of 4 nodes
 #default changed to 5 nodes in order to send data to 4 slaves
 run:
-	mpirun -np 6 bin/Prac3 
+	mpirun -np 4 bin/Prac3 
 
 doxy: Prac3.cpp
 	doxygen Prac3.doxy
