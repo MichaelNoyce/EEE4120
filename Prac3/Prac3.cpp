@@ -173,7 +173,7 @@ void Slave(int ID){
 
 
  //Receive size information 
- MPI_Recv(&bufferSizeRR, 1, MPI_INT, 0, TAG+2, MPI_COMM_WORLD, &stat);
+ MPI_Recv(&bufferSize, 1, MPI_INT, 0, TAG+2, MPI_COMM_WORLD, &stat);
 
  printf("DEBUG3a: Rowsize sent to slave is: %d \n", (int)RowNum);
  printf("DEBUG3b: Rows per slave sent to slave is: %d \n", (int)rowPerSlave);
