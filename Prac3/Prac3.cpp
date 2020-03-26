@@ -109,9 +109,9 @@ printf("DEBUG2: Buffer Size is: %d \n", (int)bufferSize);//''
 //For loop to send data size to each slave 
 for (size_t j = 1; j < numprocs ; j++) //note <numprocs as master counts as a process
 {
-    MPI_Send(&bufferSize, BUFSIZE, MPI_INT, j, TAG+1, MPI_COMM_WORLD); //Send bufferSize to each slave  
-    MPI_Send(&RowNum, BUFSIZE, MPI_INT, j, TAG+2, MPI_COMM_WORLD); //Convention to increment tag by 1 in order to differentiate each process
-    MPI_Send(&rowPerSlave, BUFSIZE, MPI_INT, j, TAG+3, MPI_COMM_WORLD);
+    MPI_Send(&bufferSize, BUFSIZE, MPI_INT, j, TAG, MPI_COMM_WORLD); //Send bufferSize to each slave  
+    MPI_Send(&RowNum, BUFSIZE, MPI_INT, j, TAG+1, MPI_COMM_WORLD); //Convention to increment tag by 1 in order to differentiate each process
+    MPI_Send(&rowPerSlave, BUFSIZE, MPI_INT, j, TAG+2, MPI_COMM_WORLD);
 }
 
 /* Important information
@@ -149,17 +149,14 @@ void Slave(int ID){
  MPI_Status stat;
 
  //Receive size information 
- MPI_Recv(&bufferSize, 1, MPI_INT, 0, TAG+1, MPI_COMM_WORLD, &stat);
- MPI_Recv(&rowPerSlave, 1, MPI_INT, 0, TAG+2, MPI_COMM_WORLD, &stat);
- MPI_Recv(&RowNum, 1, MPI_INT, 0, TAG+3, MPI_COMM_WORLD, &stat);
+ MPI_Recv(&bufferSize, 1, MPI_INT, 0, TAG, MPI_COMM_WORLD, &stat);
+ MPI_Recv(&rowPerSlave, 1, MPI_INT, 0, TAG+1, MPI_COMM_WORLD, &stat);
+ MPI_Recv(&RowNum, 1, MPI_INT, 0, TAG+2, MPI_COMM_WORLD, &stat);
 
  printf("DEBUG3a: Rowsize sent to slave is: %d \n", (int)RowNum);
  printf("DEBUG3b: Rows per slave sent to slave is: %d \n", (int)rowPerSlave);
  printf("DEBUG4: Buffer Size sent to slave is: %d \n", (int)bufferSize);
 
- // send to rank 0 (master):
- MPI_Send(buff, BUFSIZE, MPI_CHAR, 0, TAG, MPI_COMM_WORLD);
- // End of "Hello World" example................................................
 }
 //------------------------------------------------------------------------------
 
