@@ -84,6 +84,8 @@ void Master () {
  // Allocated RAM for the output image
  if(!Output.Allocate(Input.Width, Input.Height, Input.Components)) return;
 
+
+/*
  // This is example code of how to copy image files ----------------------------
  printf("Start of example code...\n");
  for(j = 0; j < 10; j++){
@@ -97,8 +99,28 @@ void Master () {
   printf("Time = %lg ms\n", (double)toc()/1e-3);
  }
  
+
  printf("End of example code...\n\n");
+ */
  // End of example -------------------------------------------------------------
+
+//Initial code to send out data size
+//JPEG stores images in a NxM array where the rows or 'scanlines' store RGB data 
+//eg RGBRGBRGB, therefore row size or width = 3*image width
+//Data type of scanlines is unsigned char 
+//Partition by spliting data into 4 sets of rows
+
+//Step 1: Determine the size of data sample 
+int bufferSize = Input.Width*Input.Components;
+int RowNum = Input.Height;
+
+printf('DEBUG1: Rowsize is: %d', RowNum);
+printf('DEBUG2: Buffer Size is: %d', bufferSize);
+
+//Step 2: Send Rowsize to each slave
+//Step 3: Send data to each slave
+//Step 4: Reviceive data from each slave
+//Step 5: Collect and order data 
 
  // Write the output image
  if(!Output.Write("Data/Output.jpg")){
