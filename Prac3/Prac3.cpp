@@ -157,7 +157,8 @@ void Slave(int ID){
  // Start of "Hello World" example..............................................
  char idstr[32];
  char buff [BUFSIZE];
-
+ int bufferSize;
+ int RowNum;
  MPI_Status stat;
 
  // receive from rank 0 (master):
@@ -166,6 +167,14 @@ void Slave(int ID){
  sprintf(idstr, "Processor %d ", ID);
  strncat(buff, idstr, BUFSIZE-1);
  strncat(buff, "reporting for duty", BUFSIZE-1);
+
+
+ //Receive size information 
+ MPI_Recv(&bufferSize, 1, MPI_INT, 0, TAG, MPI_COMM_WORLD, &stat);
+ MPI_Recv(&RowNum, 1, MPI_INT, 0, TAG+1, MPI_COMM_WORLD, &stat);
+
+ printf("DEBUG3: Rowsize sent to slave is: %d \n", (int)RowNum);
+ printf("DEBUG4: Buffer Size sent to slave is: %d \n", (int)bufferSize);
 
  // send to rank 0 (master):
  MPI_Send(buff, BUFSIZE, MPI_CHAR, 0, TAG, MPI_COMM_WORLD);
