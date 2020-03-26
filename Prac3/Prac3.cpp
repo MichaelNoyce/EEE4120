@@ -161,7 +161,7 @@ void Slave(int ID){
  char buff [BUFSIZE];
  int bufferSize;
  int RowNum;
- int rowsPerSlave;
+ int rowPerSlave;
  MPI_Status stat;
 
  // receive from rank 0 (master):
@@ -173,11 +173,10 @@ void Slave(int ID){
 
 
  //Receive size information 
- MPI_Recv(&bufferSize, 1, MPI_INT, 0, TAG+1, MPI_COMM_WORLD, &stat);
- MPI_Recv(&RowNum, 1, MPI_INT, 0, TAG+2, MPI_COMM_WORLD, &stat);
+ MPI_Recv(&bufferSizeRR, 1, MPI_INT, 0, TAG+2, MPI_COMM_WORLD, &stat);
 
  printf("DEBUG3a: Rowsize sent to slave is: %d \n", (int)RowNum);
- printf("DEBUG3b: Rows per slave sent to slave is: %d \n", (int)rowsPerSlave);
+ printf("DEBUG3b: Rows per slave sent to slave is: %d \n", (int)rowPerSlave);
  printf("DEBUG4: Buffer Size sent to slave is: %d \n", (int)bufferSize);
 
  // send to rank 0 (master):
