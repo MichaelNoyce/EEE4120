@@ -65,14 +65,7 @@ void Master () {
   sprintf(buff, "Hello %d! ", j);
   MPI_Send(buff, BUFSIZE, MPI_CHAR, j, TAG, MPI_COMM_WORLD);
  }
- for(j = 1; j < numprocs; j++) {
-  // This is blocking: normally one would use MPI_Iprobe, with MPI_ANY_SOURCE,
-  // to check for messages, and only when there is a message, receive it
-  // with MPI_Recv.  This would let the master receive messages from any
-  // slave, instead of a specific one only.
-  MPI_Recv(buff, BUFSIZE, MPI_CHAR, j, TAG, MPI_COMM_WORLD, &stat);
-  printf("0: %s\n", buff);
- }
+
  // End of "Hello World" example................................................
 
  // Read the input image
@@ -123,13 +116,22 @@ printf("DEBUG2: Buffer Size is: %d \n", (int)bufferSize);//''
 
 
 //For loop to send data size to each slave 
-for (size_t j = 1; j < numprocs ; j++) //note <numprocs as master counts as a process
+for (size_t j = 1; j < numprocs-1 ; j++) //note <numprocs as master counts as a process
 {
     MPI_Send(&bufferSize, BUFSIZE, MPI_INT, j, TAG+1, MPI_COMM_WORLD); //Send bufferSize to each slave  
     MPI_Send(&RowNum, BUFSIZE, MPI_INT, j, TAG+2, MPI_COMM_WORLD); //Convention to increment tag by 1 in order to differentiate each process
     MPI_Send(&rowPerSlave, BUFSIZE, MPI_INT, j, TAG+3, MPI_COMM_WORLD);
 }
 
+//Hello world example receive block moved in order to prevent deadlock
+ for(j = 1; j < numprocs; j++) {
+  // This is blocking: normally one would use MPI_Iprobe, with MPI_ANY_SOURCE,
+  // to check for messages, and only when there is a message, receive it
+  // with MPI_Recv.  This would let the master receive messages from any
+  // slave, instead of a specific one only.
+  MPI_Recv(buff, BUFSIZE, MPI_CHAR, j, TAG, MPI_COMM_WORLD, &stat);
+  printf("0: %s\n", buff);
+ }
 
 /* Important information
 JSAMPLE** Rows; // Points to an array of pointers to the
