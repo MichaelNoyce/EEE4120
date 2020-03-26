@@ -59,15 +59,6 @@ void Master () {
  char buff[BUFSIZE]; //! buff: Buffer for transferring message data
  MPI_Status stat;    //! stat: Status of the MPI application
 
- // Start of "Hello World" example..............................................
- printf("0: We have %d processors\n", numprocs);
- for(j = 1; j < numprocs; j++) {
-  sprintf(buff, "Hello %d! ", j);
-  MPI_Send(buff, BUFSIZE, MPI_CHAR, j, TAG, MPI_COMM_WORLD);
- }
-
- // End of "Hello World" example................................................
-
  // Read the input image
  if(!Input.Read("Data/greatwall.jpg")){
   printf("Cannot read image\n");
@@ -123,16 +114,6 @@ for (size_t j = 1; j < numprocs ; j++) //note <numprocs as master counts as a pr
     MPI_Send(&rowPerSlave, BUFSIZE, MPI_INT, j, TAG+3, MPI_COMM_WORLD);
 }
 
-//Hello world example receive block moved in order to prevent deadlock
- for(j = 1; j < numprocs; j++) {
-  // This is blocking: normally one would use MPI_Iprobe, with MPI_ANY_SOURCE,
-  // to check for messages, and only when there is a message, receive it
-  // with MPI_Recv.  This would let the master receive messages from any
-  // slave, instead of a specific one only.
-  MPI_Recv(buff, BUFSIZE, MPI_CHAR, j, TAG, MPI_COMM_WORLD, &stat);
-  printf("0: %s\n", buff);
- }
-
 /* Important information
 JSAMPLE** Rows; // Points to an array of pointers to the
                   // beginning of each row in the image buffer.
@@ -166,14 +147,6 @@ void Slave(int ID){
  int RowNum;
  int rowPerSlave;
  MPI_Status stat;
-
- // receive from rank 0 (master):
- // This is a blocking receive, which is typical for slaves.
- MPI_Recv(buff, BUFSIZE, MPI_CHAR, 0, TAG, MPI_COMM_WORLD, &stat);
- sprintf(idstr, "Processor %d ", ID);
- strncat(buff, idstr, BUFSIZE-1);
- strncat(buff, "reporting for duty", BUFSIZE-1);
-
 
  //Receive size information 
  MPI_Recv(&bufferSize, 1, MPI_INT, 0, TAG+1, MPI_COMM_WORLD, &stat);
