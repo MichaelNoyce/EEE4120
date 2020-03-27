@@ -125,7 +125,7 @@ JSAMPLE** Rows; // Points to an array of pointers to the
 
 //Step 3: Send data to each slave 
  
-for (size_t j = 0; j <numprocs; j++)
+for (size_t j = 0; j <(numprocs-1); j++) //numprocs- 1 to exclude master from slave count
 {
     for (size_t i = 0;  i<=rowPerSlave; i++) //break messages sent to slaves in blocks of rowPerSlave rows and iterate over 
     {
@@ -178,7 +178,7 @@ void Slave(int ID){
  printf("DEBUG3b: Rows per slave sent to slave is: %d \n", (int)rowPerSlave);
  printf("DEBUG4: Buffer Size sent to slave is: %d \n", (int)bufferSize);
 
-for (size_t j = 0; j <numprocs ; j++) //iterate over each slave
+for (size_t j = 0; j < (numprocs-1) ; j++) //iterate over each slave
 {
     for (size_t i = 0;  i <= rowPerSlave ; i++) 
     {
