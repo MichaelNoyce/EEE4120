@@ -125,7 +125,7 @@ JSAMPLE** Rows; // Points to an array of pointers to the
 
 //Step 3: Send data to each slave 
  
-for (size_t j = 0; j <numprocs; j++)
+for (size_t j = 1; j <numprocs; j++)
 {
     for (size_t i = 0;  i<=rowPerSlave; i++) //break messages sent to slaves in blocks of rowPerSlave rows and iterate over 
     {
@@ -177,7 +177,7 @@ void Slave(int ID){
  printf("DEBUG3b: Rows per slave sent to slave is: %d \n", (int)rowPerSlave);
  printf("DEBUG4: Buffer Size sent to slave is: %d \n", (int)bufferSize);
 
-for (size_t j = 0; j <numprocs ; j++) //iterate over each slave
+for (size_t j = 1; j <numprocs ; j++) //iterate over each slave
 {
     for (size_t i = 0;  i <= rowPerSlave ; i++) 
     {
@@ -186,7 +186,7 @@ for (size_t j = 0; j <numprocs ; j++) //iterate over each slave
         MPI_Recv(&rowTypeData[rowPerSlave*j+i][0], 1, MPI_CHAR, j, TAG+4, MPI_COMM_WORLD, &stat);  //rowTypeData[x][0] is equivalent to a pointer to a specific row 
         }
     }
-    printf("DEGUB5: Slave %d has received data \n", (int)j );
+    printf("DEBUG5: Slave %d has received data \n", (int)j );
 }
  
 
