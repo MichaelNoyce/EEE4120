@@ -129,7 +129,7 @@ for (size_t j = 0; j <(numprocs-1); j++) //numprocs- 1 to exclude master from sl
 {
     for (size_t i = 0;  i<=rowPerSlave-1; i++) //break messages sent to slaves in blocks of rowPerSlave rows and iterate over 
     {
-        MPI_Send(&Input.Rows[j*rowPerSlave+i][0], bufferSize, MPI_CHAR, j, TAG+4, MPI_COMM_WORLD); 
+        MPI_Send(&Input.Rows[j*rowPerSlave+i][0], bufferSize, MPI_CHAR, j, TAG+3, MPI_COMM_WORLD); 
         //send pointer to each row to slave    
     }
 
@@ -181,7 +181,7 @@ void Slave(int ID){
 
     for (size_t i = 0;  i <= rowPerSlave-1 ; i++) 
     {
-        MPI_Recv(&rowTypeData[i][0], bufferSize, MPI_CHAR, 0, TAG+4, MPI_COMM_WORLD, &stat);  //rowTypeData[x][0] is equivalent to a pointer to a specific row 
+        MPI_Recv(&rowTypeData[i][0], bufferSize, MPI_CHAR, 0, TAG+3, MPI_COMM_WORLD, &stat);  //rowTypeData[x][0] is equivalent to a pointer to a specific row 
     }
     printf("DEBUG6: Slave %d has received data \n", (int)(ID));
  
