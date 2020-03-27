@@ -186,7 +186,7 @@ for (size_t j = 0; j <numprocs ; j++) //iterate over each slave
         MPI_Recv(rowTypeData[rowPerSlave*j+i][bufferSize], 1, MPI_CHAR, j, TAG, MPI_COMM_WORLD); //Send bufferSize row to each slave  
         }
     }
-    printf('DEGUB5: Slave %d has received data \n', j );
+    printf('DEGUB5: Slave %d has received data \n', (int)j );
 }
  
 
