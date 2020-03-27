@@ -182,8 +182,7 @@ for (size_t j = 0; j < (numprocs-1) ; j++) //iterate over each slave
 {
     for (size_t i = 0;  i <= rowPerSlave-1 ; i++) 
     {
-        
-        MPI_Recv(&rowTypeData[rowPerSlave*j+i][0], bufferSize, MPI_CHAR, j, TAG+4, MPI_COMM_WORLD, &stat);  //rowTypeData[x][0] is equivalent to a pointer to a specific row 
+        MPI_Recv(&rowTypeData[i][0], bufferSize, MPI_CHAR, j, TAG+4, MPI_COMM_WORLD, &stat);  //rowTypeData[x][0] is equivalent to a pointer to a specific row 
     }
     printf("DEBUG6: Slave %d has received data \n", (int)(j+1));
 }
