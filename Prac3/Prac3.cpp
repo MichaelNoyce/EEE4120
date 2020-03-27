@@ -124,7 +124,21 @@ JSAMPLE** Rows; // Points to an array of pointers to the
 */
 
 //Step 3: Send data to each slave
-//Step 4: Reviceive data from each slave
+//Create a for loop to send data to each slave individually.  
+ 
+for (size_t j = 0; j <numprocs ; i++)
+{
+    for (size_t i = 0;  i=<rowPerSlave RowNum ; i++) //break messages sent to slaves in blocks of 16 rows and iterate over 
+    {
+        if((i+j)<RowNum)
+        {
+        MPI_Send(&Input.Row[rowPerSlave*j+i][bufferSize], 1, MPI_CHAR, j, TAG, MPI_COMM_WORLD); //Send bufferSize to each slave  
+        }
+    }
+}
+
+
+//Step 4: Receive data from each slave
 //Step 5: Collect and order data 
 
  // Write the output image
@@ -147,15 +161,36 @@ void Slave(int ID){
  int RowNum;
  int rowPerSlave;
  MPI_Status stat;
+ int j; //loop counter and rank
+
 
  //Receive size information 
  MPI_Recv(&bufferSize, 1, MPI_INT, 0, TAG, MPI_COMM_WORLD, &stat);
  MPI_Recv(&rowPerSlave, 1, MPI_INT, 0, TAG+1, MPI_COMM_WORLD, &stat);
  MPI_Recv(&RowNum, 1, MPI_INT, 0, TAG+2, MPI_COMM_WORLD, &stat);
 
+ unsigned char rowTypeData[RowNum][bufferSize]; //default data type for row in JPEG is unsigned char
+  //use recieved size information to create appropriately sized array
+
+
  printf("DEBUG3a: Rowsize sent to slave is: %d \n", (int)RowNum);
  printf("DEBUG3b: Rows per slave sent to slave is: %d \n", (int)rowPerSlave);
  printf("DEBUG4: Buffer Size sent to slave is: %d \n", (int)bufferSize);
+
+for (size_t j = 0; j <numprocs ; j++) //iterate over each slave
+{
+    for (size_t i = 0;  i =< rowPerSlave ; i++) //send equal number of rows to each slave
+    {
+        if((i+j)<RowNum) //iterate until total size reached 
+        {
+        MPI_Recv(rowTypeData[rowPerSlave*j+i][bufferSize], 1, MPI_CHAR, j, TAG, MPI_COMM_WORLD); //Send bufferSize row to each slave  
+        }
+    }
+    printf('DEGUB5: Slave %d has received data \n', j );
+}
+ 
+
+
 
 }
 //------------------------------------------------------------------------------
