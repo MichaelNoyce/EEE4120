@@ -128,7 +128,7 @@ JSAMPLE** Rows; // Points to an array of pointers to the
  
 for (size_t j = 0; j <numprocs ; i++)
 {
-    for (size_t i = 0;  i=<rowPerSlave RowNum ; i++) //break messages sent to slaves in blocks of 16 rows and iterate over 
+    for (size_t i = 0;  i<=rowPerSlave RowNum ; i++) //break messages sent to slaves in blocks of 16 rows and iterate over 
     {
         if((i+j)<RowNum)
         {
@@ -179,7 +179,7 @@ void Slave(int ID){
 
 for (size_t j = 0; j <numprocs ; j++) //iterate over each slave
 {
-    for (size_t i = 0;  i =< rowPerSlave ; i++) //send equal number of rows to each slave
+    for (size_t i = 0;  i <= rowPerSlave ; i++) //send equal number of rows to each slave
     {
         if((i+j)<RowNum) //iterate until total size reached 
         {
