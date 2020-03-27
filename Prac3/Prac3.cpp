@@ -123,16 +123,15 @@ JSAMPLE** Rows; // Points to an array of pointers to the
                   // Rows[row][num_components*column + component]
 */
 
-//Step 3: Send data to each slave
-//Create a for loop to send data to each slave individually.  
+//Step 3: Send data to each slave 
  
 for (size_t j = 0; j <numprocs; j++)
 {
-    for (size_t i = 0;  i<=rowPerSlave; i++) //break messages sent to slaves in blocks of 16 rows and iterate over 
+    for (size_t i = 0;  i<=rowPerSlave; i++) //break messages sent to slaves in blocks of rowPerSlave rows and iterate over 
     {
         if((i+j)<RowNum)
         {
-        MPI_Send(&Input.Rows[rowPerSlave*j+i][bufferSize], 1, MPI_CHAR, j, TAG, MPI_COMM_WORLD); 
+        MPI_Send(&Input.Rows[i][0], 1, MPI_CHAR, j, TAG, MPI_COMM_WORLD); 
         //Send rowPerSlave rows of width buffersize to each slave  
         }
     }
@@ -180,11 +179,11 @@ void Slave(int ID){
 
 for (size_t j = 0; j <numprocs ; j++) //iterate over each slave
 {
-    for (size_t i = 0;  i <= rowPerSlave ; i++) //send equal number of rows to each slave
+    for (size_t i = 0;  i <= rowPerSlave ; i++) 
     {
         if((i+j)<RowNum) //iterate until total size reached 
         {
-        MPI_Recv(rowTypeData[rowPerSlave*j+i][bufferSize], 1, MPI_CHAR, j, TAG, MPI_COMM_WORLD); //Send bufferSize row to each slave  
+        MPI_Recv(&rowTypeData[rowPerSlave*j+i][0], 1, MPI_CHAR, j, TAG, MPI_COMM_WORLD);  //rowTypeData[x][0] is equivalent to a pointer to a specific row 
         }
     }
     printf("DEGUB5: Slave %d has received data \n", (int)j );
