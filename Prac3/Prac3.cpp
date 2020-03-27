@@ -133,6 +133,7 @@ for (size_t j = 0; j <numprocs; j++)
         {
         MPI_Send(&Input.Rows[j*rowPerSlave+i][0], bufferSize, MPI_CHAR, j, TAG+4, MPI_COMM_WORLD); 
         //send pointer to each row to slaves
+        //Need to fix this 
         }
     }
 }
