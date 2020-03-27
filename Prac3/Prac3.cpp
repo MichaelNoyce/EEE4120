@@ -131,7 +131,7 @@ for (size_t j = 0; j <numprocs; j++)
     {
         if((i+j)<RowNum)
         {
-        MPI_Send(&Input.Rows[i][0], 1, MPI_CHAR, j, TAG+4, MPI_COMM_WORLD, ); 
+        MPI_Send(&Input.Rows[i][0], 1, MPI_CHAR, j, TAG+4, MPI_COMM_WORLD, &stat ); 
         //Send rowPerSlave rows of width buffersize to each slave  
         }
     }
