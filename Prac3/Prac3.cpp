@@ -170,7 +170,7 @@ void Slave(int ID){
  MPI_Recv(&rowPerSlave, 1, MPI_INT, 0, TAG+1, MPI_COMM_WORLD, &stat);
  MPI_Recv(&RowNum, 1, MPI_INT, 0, TAG+2, MPI_COMM_WORLD, &stat);
 
- unsigned char rowTypeData[RowNum][bufferSize]; //default data type for row in JPEG is unsigned char
+ unsigned char rowTypeData[rowPerSlave][bufferSize]; //default data type for row in JPEG is unsigned char
   //use recieved size information to create appropriately sized array
 
 
@@ -181,7 +181,7 @@ void Slave(int ID){
 
     for (size_t i = 0;  i <= rowPerSlave-1 ; i++) 
     {
-        MPI_Recv(&rowTypeData[i+ID*rowPerSlave][0], bufferSize, MPI_CHAR, 0, TAG+4, MPI_COMM_WORLD, &stat);  //rowTypeData[x][0] is equivalent to a pointer to a specific row 
+        MPI_Recv(&rowTypeData[i][0], bufferSize, MPI_CHAR, 0, TAG+4, MPI_COMM_WORLD, &stat);  //rowTypeData[x][0] is equivalent to a pointer to a specific row 
     }
     printf("DEBUG6: Slave %d has received data \n", (int)(ID));
  
