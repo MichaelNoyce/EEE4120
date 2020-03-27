@@ -131,7 +131,7 @@ for (size_t j = 0; j <numprocs; j++)
     {
         if((i+j)<RowNum)
         {
-        MPI_Send(&Input.Rows[j*rowPerSlave+i][0], 1, MPI_CHAR, j, TAG+4, MPI_COMM_WORLD); 
+        MPI_Send(&Input.Rows[j*rowPerSlave+i][0], bufferSize, MPI_CHAR, j, TAG+4, MPI_COMM_WORLD); 
         //send pointer to each row to slaves
         }
     }
@@ -183,7 +183,7 @@ for (size_t j = 0; j <numprocs ; j++) //iterate over each slave
     {
         if((i+j)<RowNum) //iterate until total size reached 
         {
-        MPI_Recv(&rowTypeData[rowPerSlave*j+i][0], 1, MPI_CHAR, j, TAG+4, MPI_COMM_WORLD, &stat);  //rowTypeData[x][0] is equivalent to a pointer to a specific row 
+        MPI_Recv(&rowTypeData[rowPerSlave*j+i][0], bufferSize, MPI_CHAR, j, TAG+4, MPI_COMM_WORLD, &stat);  //rowTypeData[x][0] is equivalent to a pointer to a specific row 
         }
     }
     printf("DEBUG5: Slave %d has received data \n", (int)(j+1));
