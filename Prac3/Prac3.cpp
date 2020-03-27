@@ -178,14 +178,12 @@ void Slave(int ID){
  printf("DEBUG3b: Rows per slave sent to slave is: %d \n", (int)rowPerSlave);
  printf("DEBUG4: Buffer Size sent to slave is: %d \n", (int)bufferSize);
 
-for (size_t j = 0; j < (numprocs-1) ; j++) //iterate over each slave
-{
-    for (size_t i = 0;  i <= rowPerSlave-1 ; i++) 
+
+    for (size_t i = 0;  i <= rowPerSlave ; i++) 
     {
-        MPI_Recv(&rowTypeData[i][0], bufferSize, MPI_CHAR, j, TAG+4, MPI_COMM_WORLD, &stat);  //rowTypeData[x][0] is equivalent to a pointer to a specific row 
+        MPI_Recv(&rowTypeData[i+ID*rowPerSlave][0], bufferSize, MPI_CHAR, 0, TAG+4, MPI_COMM_WORLD, &stat);  //rowTypeData[x][0] is equivalent to a pointer to a specific row 
     }
-    printf("DEBUG6: Slave %d has received data \n", (int)(j+1));
-}
+    printf("DEBUG6: Slave %d has received data \n", (int)(ID));
  
 
 
