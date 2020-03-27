@@ -126,13 +126,14 @@ JSAMPLE** Rows; // Points to an array of pointers to the
 //Step 3: Send data to each slave
 //Create a for loop to send data to each slave individually.  
  
-for (size_t j = 0; j <numprocs ; i++)
+for (size_t j = 0; j <numprocs; j++)
 {
-    for (size_t i = 0;  i<=rowPerSlave RowNum ; i++) //break messages sent to slaves in blocks of 16 rows and iterate over 
+    for (size_t i = 0;  i<=rowPerSlave; i++) //break messages sent to slaves in blocks of 16 rows and iterate over 
     {
         if((i+j)<RowNum)
         {
-        MPI_Send(&Input.Row[rowPerSlave*j+i][bufferSize], 1, MPI_CHAR, j, TAG, MPI_COMM_WORLD); //Send bufferSize to each slave  
+        MPI_Send(&Input.Row[rowPerSlave*j+i][bufferSize], 1, MPI_CHAR, j, TAG, MPI_COMM_WORLD); 
+        //Send rowPerSlave rows of width buffersize to each slave  
         }
     }
 }
